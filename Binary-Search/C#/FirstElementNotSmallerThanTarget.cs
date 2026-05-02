@@ -15,6 +15,9 @@ target = 6
 Output: 3
 
 Explanation: The first element larger than 6 is 7, which has index 3.*/
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 class Solution
 {

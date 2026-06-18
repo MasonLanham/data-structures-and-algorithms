@@ -1,5 +1,7 @@
 #Solves the problem of counting the number of pairs in an array that sum to greater than a target.
 #Can be solved simpler by using two pointers
+#Had this question on a job interview, that I sadly didn't get ;w;
+
 import heapq, math
 
 def pairsOverValue(arr, target):

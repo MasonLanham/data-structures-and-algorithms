@@ -15,19 +15,18 @@ Explanation: The smallest element is 2, and its index is 7.'''
 import math
 
 def find_min_rotated(arr: list[int]) -> int:
-    last = arr[-1]
     low = 0
     high = len(arr) - 1
-    result = high
+    result = -1
     while(low <= high):
-        mid = low + math.floor((high - low) / 2)
-        if(arr[mid] > last):
-            low = mid + 1;
-        elif(arr[mid] <= last):
+        mid = low + (high - low) // 2
+        if(arr[mid] <= arr[-1]):
             result = mid
             high = mid - 1
+        else:
+            low = mid + 1
     return result
-
+    
 if __name__ == "__main__":
     arr = [int(x) for x in input().split()]
     res = find_min_rotated(arr)

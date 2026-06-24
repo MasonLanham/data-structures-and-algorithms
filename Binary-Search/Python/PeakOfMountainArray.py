@@ -12,18 +12,17 @@ Output: 3
 
 Explanation: The largest element is 3, and its index is 3.'''
 
-import math
 def peak_of_mountain_array(arr: list[int]) -> int:
-    low = 0
     high = len(arr) - 1
-    result = high
+    low = 0
+    result = -1
     while(low <= high):
-        mid = low + math.floor((high - low) / 2)
-        if(arr[mid + 1] > arr[mid]):
-            low = mid + 1
-        elif(arr[mid + 1] < arr[mid]):
+        mid = low + (high - low) // 2
+        if(arr[mid] > arr[mid + 1]):
             result = mid
             high = mid - 1
+        else:
+            low = mid + 1
     return result
 
 if __name__ == "__main__":

@@ -24,8 +24,6 @@ Output: 7
 Explanation:
 Assign [2, 3], [5], and [7] separately to workers. The minimum time is 7.'''
 
-
-import math
 def newspapers_split(newspapers_read_times: list[int], num_coworkers: int) -> int:
     # Some items to note:
     # We need O(n) to set up the solution by generating the
@@ -33,29 +31,32 @@ def newspapers_split(newspapers_read_times: list[int], num_coworkers: int) -> in
     # sum(newspapers_read_times) no time more than the time for one coworker to read all newspapers
     # We need to search this space for a time that allows each coworker to read the minimum amount
     # It is somewhere in this space, we'll simply need to evaluate each time we find while binary searching
-    
-    low, high = max(newspapers_read_times), sum(newspapers_read_times)
-    result = high
+    low = max(newspapers_read_times)
+    high = sum(newspapers_read_times)
+    result = -1
     while(low <= high):
-        mid = low + math.floor((high - low) / 2)
-
-        #determining if this mid (time) is feasible
-        time, workers = 0, 1
+        mid = low + (high - low) // 2
+        
+        #need to determine feasibility
+        workersNeeded = 1
         index = 0
-        while index < len(newspapers_read_times):
-        # check if current time exceeds the given mid (current time we are evaluating)
-            if time + newspapers_read_times[index] > mid:
-                time = 0
-                workers += 1
-            time += newspapers_read_times[index]
-            index += 1
-       
-        #checking feasibility        
-        if workers > num_coworkers:
-            low = mid + 1
-        else:
+        while(workersNeeded <= num_coworkers and index < len(newspapers_read_times)):
+            readTime = 0
+            while(readTime < mid and index < len(newspapers_read_times)):
+                readTime += newspapers_read_times[index]
+                index += 1
+            #Step back once if readTime went over the amount we're checking
+            if(readTime > mid):
+                index -= 1
+                readTime -= newspapers_read_times[index] 
+            workersNeeded += 1
+            
+        #feasible if all newspapers were read      
+        if(index == len(newspapers_read_times)):
             result = mid
             high = mid - 1
+        else:
+            low = mid + 1            
     return result
 
 if __name__ == "__main__":

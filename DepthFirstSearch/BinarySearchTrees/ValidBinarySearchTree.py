@@ -3,6 +3,13 @@ In other words, an inorder traversal of a binary search tree yields a list of va
 
 Given a binary tree, determine whether it is a binary search tree.'''
 
+from math import inf
+class Node:
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
 def valid_bst(root: Node) -> bool:
     if root is not None:
         return dfs(root.left, -inf, root.val) and dfs(root.right, root.val, inf)
@@ -16,5 +23,5 @@ def dfs(root, minBarrier, maxBarrier):
     elif root.val <= minBarrier or root.val >= maxBarrier:
         return False
     else:
-        return dfs(root.left, min(root.val, minBarrier), root.val) and dfs(root.right, root.val, max(root.val, maxBarrier))
-    
+        return dfs(root.left, minBarrier, root.val) and dfs(root.right, root.val, maxBarrier)
+      

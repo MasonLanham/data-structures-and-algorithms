@@ -7,35 +7,21 @@ Output: [1, 4]
 The subarray arr[1:4] = [-20, -3, 30] sums to 7.
 */
 function subarraySum(arr, target) {
-    let preFix = [0, arr[0]];
-    for(let i = 1; i < arr.length; i++){
-        preFix.push(arr[i] + preFix[i]);
+    //Creating prefix sum
+    let ps = new Array(arr.length + 1).fill(0);
+    for(let i = 0; i < arr.length; i++){
+        ps[i + 1] = arr[i] + ps[i];
     }
-    let preFixSet = new Map();
-    for(let j = 0; j < preFix.length; j++){
-        if(preFixSet.get(preFix[j] - target) != undefined){
-            const result = [preFixSet.get(preFix[j] - target), j];
-            return result;
+    
+    //Maintain a dictionary to lookup the compliment
+    //Compliment = ps[j] - target
+    const lookup = new Map();
+    for(let j = 0; j < ps.length; j++){
+        const complimentLocation = lookup.get(ps[j] - target);
+        if(complimentLocation != undefined){
+            return [complimentLocation, j]
         }
-        else{
-            preFixSet.set(preFix[j], j);
-        }
+        lookup.set(ps[j], j);
     }
-    const result = [-1, -1]
-    return result;
+    return [-1, -1];
 }
-/*
-Why this works: 
-Define prefix[k] as the sum of the first k elements, so prefix[0] = 0 and prefix[k] = arr[0] + ... + arr[k-1].
-For any subarray arr[i:j], its sum is:
-
-prefix[j] - prefix[i]
-
-This turns the goal into finding indices i < j such that:
-prefix[j] - prefix[i] = target
-
-Rearranged:
-prefix[i] = prefix[j] - target
-
-Once you fix j, you only need to know whether prefix[j] - target appeared earlier.
-*/

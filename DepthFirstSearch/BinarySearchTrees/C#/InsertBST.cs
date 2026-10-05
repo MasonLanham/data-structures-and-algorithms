@@ -9,7 +9,6 @@ val — an integer representing the value to be inserted.
 Output
 A valid BST with the inserted number, or the same BST if the number already exists.
 */
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,13 +39,13 @@ class Solution
         if(bst is null){
             return new Node<int>(val, null, null);
         }
-        if(val > bst.val){
-            return new Node<int>(bst.val, bst.left, InsertBst(bst.right, val));
-        }
-        else if(val < bst.val){
-            return new Node<int>(bst.val, InsertBst(bst.left, val), bst.right);
-        }
         else{
+            if(val > bst.val){
+                bst.right = InsertBst(bst.right, val);
+            }
+            else if(val < bst.val){
+                bst.left = InsertBst(bst.left, val);
+            }
             return bst;
         }
     }

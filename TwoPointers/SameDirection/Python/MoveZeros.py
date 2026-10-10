@@ -8,12 +8,11 @@ Output:
 [1, 2, 7, 0, 0, 0]'''
 
 def move_zeros(nums: list[int]) -> None:
-    slow, fast, tmp = 0, 0, 0
-    while(fast < len(nums)):
-        #Slow pointer must always point to the first zero in the array before swap (this maintains the order)
-        if(nums[fast] != 0):
-            tmp = nums[slow]
-            nums[slow] = nums[fast]
-            nums[fast] = tmp
-            slow += 1
-        fast += 1       
+    zeroPointer, nonZeroPointer, tmp = 0, 0, 0
+    while(nonZeroPointer < len(nums)):
+        tmp = nums[nonZeroPointer]
+        nums[nonZeroPointer] = nums[zeroPointer]
+        nums[zeroPointer] = tmp
+        if(nums[zeroPointer] != 0):
+            zeroPointer += 1
+        nonZeroPointer += 1

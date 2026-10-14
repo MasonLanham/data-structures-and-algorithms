@@ -17,25 +17,36 @@ Input: arr1 = [2, 4, 5, 8, 10], arr2 = [4, 6, 8, 9]
 Output: 30'''
 def maximum_score(arr1: list[int], arr2: list[int]) -> int:
     modulus = 10**9 + 7
-    ptr1, ptr2 = 0, 0
-    sum1, sum2, score = 0, 0, 0
-    while(ptr1 < len(arr1) and ptr2 < len(arr2)):
-        if(arr1[ptr1] < arr2[ptr2]):
-            sum1 = (arr1[ptr1] + sum1) % modulus
-            ptr1 += 1
-        elif(arr2[ptr2] < arr1[ptr1]):
-            sum2 = (arr2[ptr2] + sum2) % modulus
-            ptr2 += 1
+    score = 0
+    p1, p2 = 0, 0
+    sum1, sum2 = 0, 0
+    while(p1 < len(arr1) and p2 < len(arr2)):
+        #Searching for teleport
+        if(arr1[p1] < arr2[p2]):
+            sum1 = (sum1 + arr1[p1]) % modulus
+            p1 += 1
+            
+        elif(arr2[p2] < arr1[p1]):
+            sum2 = (sum2 + arr2[p2]) % modulus
+            p2 += 1
+            
+        #Teleport found; add larger sum to window
         else:
-            score = (max(sum1, sum2) + arr1[ptr1] + score) % modulus
-            sum1, sum2 = 0, 0
-            ptr1 += 1
-            ptr2 += 1
-    while(ptr1 < len(arr1)):
-        sum1 = (arr1[ptr1] + sum1) % modulus
-        ptr1 += 1
-    while(ptr2 < len(arr2)):
-        sum2 = (arr2[ptr2] + sum2) % modulus
-        ptr2 += 1
-    score = (max(sum1, sum2) + score) % modulus
+            score = (score + max(sum1, sum2)) % modulus
+            sum1 = arr1[p1]
+            sum2 = arr2[p2]
+            p1 += 1
+            p2 += 1
+
+    #Adding sums after last teleport
+    while(p1 < len(arr1)):
+        sum1 = (sum1 + arr1[p1]) % modulus
+        p1 += 1
+
+    while(p2 < len(arr2)):
+        sum2 = (sum2 + arr2[p2]) % modulus
+        p2 += 1
+
+    score = (score + max(sum1, sum2)) % modulus
+            
     return score

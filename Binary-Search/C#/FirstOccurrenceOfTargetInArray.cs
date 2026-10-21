@@ -1,5 +1,7 @@
 /*
-Given a sorted array of integers and a target integer, find the first occurrence of the target and return its index. Return -1 if the target is not in the array.
+Given a sorted array of integers and a target integer, 
+find the first occurrence of the target and return its index. 
+Return -1 if the target is not in the array.
 
 Input:
 
@@ -16,6 +18,7 @@ target = 6
 Output: -1
 
 Explanation: 6 does not exist in the array.
+
 */
 
 using System;
@@ -27,19 +30,20 @@ class Solution
     public static int FindFirstOccurrence(List<int> arr, int target)
     {
         int low = 0;
-        int high = arr.Count - 1;
-        int mid;
+        int high = arr.Count() - 1;
+        int mid = -1;
         int result = -1;
         while(low <= high){
-            mid = low + (high - low) / 2;
-            if(arr[mid] >= target){
+            mid = low + (int)(MathF.Floor((high - low) / 2));
+            if(arr[mid] < target){
+                low = mid + 1;
+            }
+            else if(arr[mid] > target){
                 high = mid - 1;
-                if(arr[mid] == target){
-                    result = mid;
-                }
             }
             else{
-                low = mid + 1;
+                result = mid;
+                high = mid - 1;
             }
         }
         return result;

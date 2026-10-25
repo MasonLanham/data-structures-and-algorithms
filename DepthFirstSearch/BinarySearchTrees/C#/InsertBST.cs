@@ -39,14 +39,13 @@ class Solution
         if(bst is null){
             return new Node<int>(val, null, null);
         }
-        else{
-            if(val > bst.val){
-                bst.right = InsertBst(bst.right, val);
-            }
-            else if(val < bst.val){
-                bst.left = InsertBst(bst.left, val);
-            }
-            return bst;
+        else if(val < bst.val){
+            bst.left = InsertBst(bst.left, val); 
+        }
+        else if(val > bst.val){
+            bst.right = InsertBst(bst.right, val);
+        }
+        return bst;
         }
     }
 }
